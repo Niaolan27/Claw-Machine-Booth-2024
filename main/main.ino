@@ -13,24 +13,10 @@ const int pulseCountPulley = 400;
 const int pulseCountLR = 10;
 const int pulseHighLength = 500;
 const int pulseLowLength = 500;
+const int pulsePulleyDelay = 2000;
 int leftLimit = 0;
 int rightLimit = 0;
 bool pulleyMoving = false;
-
-void setup()
-{
-    pinMode(3, OUTPUT);
-    pinMode(4, OUTPUT);
-    pinMode(5, OUTPUT);
-    pinMode(6, OUTPUT);
-
-    pinMode(7, INPUT);
-    pinMode(8, INPUT);
-    pinMode(10, INPUT);
-    pinMode(12, INPUT);
-    pinMode(13, INPUT);
-    Serial.begin(9600);
-}
 
 // Short pulse for horizontal motion
 void pulseLR()
@@ -50,20 +36,49 @@ void pulsePulley()
     digitalWrite(dirPinPulley, HIGH);
     for (int i = 0; i < pulseCountPulley; i++) {
         digitalWrite(stepPinPulley, HIGH);
-        delayMicroseconds(pulseHighLength);
+        delayMicroseconds(pulsePulleyDelay);
         digitalWrite(stepPinPulley, LOW);
-        delayMicroseconds(pulseLowLength);
+        delayMicroseconds(pulsePulleyDelay);
     }
     delay(1000);
     digitalWrite(dirPinPulley, LOW);
     for (int i = 0; i < pulseCountPulley; i++) {
         digitalWrite(stepPinPulley, HIGH);
-        delayMicroseconds(pulseHighLength);
+        delayMicroseconds(pulsePulleyDelay);
         digitalWrite(stepPinPulley, LOW);
-        delayMicroseconds(pulseLowLength);
+        delayMicroseconds(pulsePulleyDelay);
     }
     pulleyMoving = false;
 }
+
+
+void setup()
+{
+    pinMode(3, OUTPUT);
+    pinMode(4, OUTPUT);
+    pinMode(5, OUTPUT);
+    pinMode(6, OUTPUT);
+
+    pinMode(7, INPUT);
+    pinMode(8, INPUT);
+    pinMode(10, INPUT);
+    pinMode(12, INPUT);
+    pinMode(13, INPUT);
+    Serial.begin(9600);
+
+    // coil the pulley up
+    pulleyMoving = true;
+    delay(300);
+    digitalWrite(dirPinPulley, LOW);
+    for (int i = 0; i < pulseCountPulley; i++) {
+        digitalWrite(stepPinPulley, HIGH);
+        delayMicroseconds(pulsePulleyDelay);
+        digitalWrite(stepPinPulley, LOW);
+        delayMicroseconds(pulsePulleyDelay);
+    }
+    pulleyMoving = false;
+}
+
 
 void loop()
 {

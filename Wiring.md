@@ -1,3 +1,7 @@
+Breadboard: 
+Left driver is Pulley
+Right driver is LR
+
 
 
 Purple: direction
